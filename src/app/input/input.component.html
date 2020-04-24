@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <input formControlName="description" type="text" maxlength="20">
+
+  <button (click)="save()">
+    <i class="fa fa-plus-square"></i>
+  </button>
+
+  <div class="select">
+    <select formControlName="scope" value="default">
+      <option value="default">Select a scope</option>
+      <option *ngFor="let scope of storeService.scopes" [value]="scope.id">
+        {{scope.text}}</option>
+    </select>
+  </div>
+</form>

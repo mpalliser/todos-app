@@ -1,0 +1,8 @@
+<table>
+  <tr>
+    <th *ngFor="let header of headers">{{header.text}}</th>
+  </tr>
+  <tr *ngFor="let week of monthWeeks">
+    <td *ngFor="let day of week">{{day?.format('DD')}}</td>
+  </tr>
+</table>

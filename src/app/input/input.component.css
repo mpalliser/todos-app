@@ -1,0 +1,57 @@
+input, button, select {
+  padding: .5rem;
+  font-size: 1rem;
+  background: white;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+  color: #2BAE66FF;
+  cursor: pointer;
+  width: 10rem;
+}
+
+.select {
+  margin: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.select::after {
+  content: "\25BC";
+  background: #2BAE66FF;
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+  padding: .5rem;
+  transition: all 0.3s ease;
+}
+
+.select:hover::after {
+  background: white;
+  color: #2BAE66FF;
+}
+
+button {
+  background: #2BAE66FF;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+i {
+  color: white;
+}
+
+button:hover {
+  background: white;
+}
+
+button:hover > i {
+  color: #2BAE66FF;
+}

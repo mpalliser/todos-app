@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detail-list {
+  min-width: 25rem;
+  list-style: none;
+}
+
+.detail {
+  margin: 0.5rem;
+  background: white;
+  color: black;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail li {
+  flex: 1;
+}
+
+i {
+  color: white;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.btn-success {
+  background: #00C851;
+}
+
+.btn-danger {
+  background: #FF4444;
+}
+
+.btn-save {
+  background: #33b5e5;
+}
+
+#circle {
+  margin-left: .5rem;
+  margin-right: .5rem;
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+}

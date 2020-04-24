@@ -1,18 +1,34 @@
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { InputComponent } from './input/input.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { DetailComponent } from './detail/detail.component';
+import { ScopeService } from './service/scope.service';
+import { StoreService } from './service/store.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InputComponent,
+    CalendarComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    ScopeService,
+    StoreService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

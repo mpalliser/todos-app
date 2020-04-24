@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: linear-gradient(70deg, #2BAE66FF, #beb8b7);
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+}
+
+app-calendar, app-detail, form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20vh;
+}
+
