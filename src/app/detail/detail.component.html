@@ -1,8 +1,8 @@
 <div class="container">
   <ul class="detail-list">
-    <div class="detail" *ngFor="let task of storeService.tasks">
-      <div id="circle" [style]="'background:' + task.scope.color"></div>
-      <li class="detail-item">{{task.description}}</li>
+    <div class="detail" *ngFor="let todo of storeService.selectedDay.todos">
+      <div id="circle" [style]="'background:' + todo.scope.color"></div>
+      <li class="detail-item">{{todo.description}}</li>
       <button><i class="fa fa-thumbs-up btn-success"></i></button>
       <button><i class="fa fa-thumbs-down btn-danger"></i></button>
       <button><i class="fa fa-save btn-save"></i></button>

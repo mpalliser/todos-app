@@ -10,6 +10,8 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { DetailComponent } from './detail/detail.component';
 import { ScopeService } from './service/scope.service';
 import { StoreService } from './service/store.service';
+import { CalendarService } from './service/calendar.service';
+import { TodoService } from './service/todo.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { StoreService } from './service/store.service';
   ],
   providers: [
     ScopeService,
-    StoreService
+    StoreService,
+    CalendarService,
+    TodoService
   ],
   bootstrap: [AppComponent]
 })

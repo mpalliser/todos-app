@@ -8,7 +8,7 @@ import { StoreService } from './store.service';
 @Injectable()
 export class ScopeService {
 
-  private readonly URI = 'http://www.mocky.io/v2/5e9d72ad3400006f006ee669';
+  private readonly URI = 'http://www.mocky.io/v2/5eaedf0b330000c9329f4234';
 
   constructor(
     private http: HttpClient,
@@ -29,14 +29,16 @@ export class ScopeService {
     );
   }
 
-  getHeaders(): any {
+  // TODO - extract to utilsService
+  private getHeaders(): any {
     const headers = new HttpHeaders();
     headers.append('Content-TypeService', 'application/json');
 
     return {headers};
   }
 
-   handleError(error: any): Promise<any> {
+  // TODO - extract to utilsService
+  private handleError(error: any): Promise<any> {
     return Promise.reject(error || error.message);
   }
 }

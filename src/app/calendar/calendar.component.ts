@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { StoreService } from '../service/store.service';
+import { CalendarService } from '../service/calendar.service';
+import { forkJoin } from 'rxjs';
+import { TodoService } from '../service/todo.service';
 
 @Component({
   selector: 'app-calendar',
@@ -7,8 +11,6 @@ import * as moment from 'moment';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-
-  monthWeeks = [];
 
   headers = [
     {position: 1, text: 'Lunes'},
@@ -20,47 +22,23 @@ export class CalendarComponent implements OnInit {
     {position: 0, text: 'Domingo'}
     ];
 
-  constructor() { }
+  constructor(
+    public storeService: StoreService,
+    private calendarService: CalendarService,
+    private todoService: TodoService) { }
 
   ngOnInit(): void {
-    this.getDaysByMonth();
+    
+    this.calendarService.fillMonthTable();
+    this.todoService.fetchMonthTodos();
   }
 
-  getDaysByMonth() {
-    let daysInMonth = moment().daysInMonth();
-    const days = [];
-    let week = [];
-    // let monthEndDay = moment().endOf('month');
-    while (daysInMonth) {
-      const currentDay = moment().date(daysInMonth);
-      days.push(currentDay);
-      daysInMonth--;
-    }
-
-    days.reverse();
-    days.forEach((day, index) => {
-
-      if (index === 0 && day.weekday() < 6) {
-        let count = day.weekday();
-        while(count >= 1) {
-          week.push(null);
-          count --;
-        }
-      }
-
-      week.push(day);
-
-      if (day.weekday() === 6) {
-        this.monthWeeks.push(week);
-        week = [];
-      }
-
-      if (index == days.length -1) {
-        this.monthWeeks.push(week);
-      }
-
-    });
-
+  getMonth(): string {
+    return moment().locale('es').format('MMMM').toUpperCase();
   }
 
+
+  selectDay(day: any): void {
+    this.storeService.setSelectedDay(day);
+  }
 }

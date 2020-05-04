@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Scope } from '../model/scope';
-import { Task } from '../model/task';
+import { Todo } from '../model/todo';
 import { ScopeService } from '../service/scope.service';
 import { StoreService } from '../service/store.service';
 
@@ -30,27 +30,48 @@ export class InputComponent implements OnInit {
   initForm(): void {
     this.formGroup = this.formBuilder.group({
       description: [null, Validators.required],
-      scope: [null, Validators.required]
+      scope: [null, Validators.required],
+      date: [null, Validators.required],
+      quantity: [null, Validators.required]
     });
+
+    this.formGroup.controls['date'].patchValue(moment().format('YYYY-MM-DD'));
   }
 
   save(): void {
-    this.storeService.tasks.push(this.buildTask());
-    console.log(this.storeService.tasks);
+    if (this.formGroup.valid) {
+      
+      let todo = this.buildTodo();
+      this.storeService.monthTodos.push(todo);
+      
+      this.storeService.month.weeks.forEach(week => {
+        week.days.forEach(day => {
+          if (day && day.number.toString() === moment(todo.date).format('DD')) {
+            day.todos.push(todo);
+            console.log(todo);
+          }
+        });
+
+        this.resetFormData();
+      });
+    }
   }
 
-  getSelectedScope(): Scope {
-    let b = this.storeService.scopes;
-    let a = this.formGroup.get('scope').value;
-    return b.find(
-      scope => scope.id == a);
+  private resetFormData(): void {
+    this.formGroup.patchValue({date: this.formGroup.get('date').value, scope: '', description: ''});
   }
 
-  buildTask(): Task {
+  private getSelectedScope(): Scope {
+    let scopes = this.storeService.scopes;
+    let selectedScopeId = this.formGroup.get('scope').value;
+    return scopes.find(
+      scope => scope.id == selectedScopeId);
+  }
+
+  private buildTodo(): Todo {
     return {
-      description: this.formGroup.get('description').value,
-      scope: this.getSelectedScope(),
-      date: moment().format('YYYY-MM-DD')
+      ...this.formGroup.value,
+      scope: this.getSelectedScope()
     };
   }
 }

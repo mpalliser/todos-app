@@ -47,13 +47,3 @@ button {
 .btn-save {
   background: #33b5e5;
 }
-
-#circle {
-  margin-left: .5rem;
-  margin-right: .5rem;
-  width: 10px;
-  height: 10px;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
-  border-radius: 25px;
-}
