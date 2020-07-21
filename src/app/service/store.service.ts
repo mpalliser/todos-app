@@ -4,6 +4,7 @@ import { Todo } from '../model/todo';
 import { Month } from '../model/month';
 import * as moment from 'moment';
 import { Day } from '../model/day';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class StoreService {
@@ -12,7 +13,11 @@ export class StoreService {
   
   monthTodos: Todo[] = [];
   
-  month: Month = new Month();
+  month: Month;
+
+  isDaySelected: boolean;
+
+  daySelectedObservable = new Subject();
 
   // TODO - Refactor number, momth year, weekday ??
   selectedDay: Day = {
@@ -24,11 +29,9 @@ export class StoreService {
   };
 
   setSelectedDay(day: any) {
+    this.daySelectedObservable.next(day);
+    this.isDaySelected = true;
     this.selectedDay = day;
-  }
-
-  getActualMonth(): any {
-    return moment().format('MM');
   }
 
   getFirstDay(): any {

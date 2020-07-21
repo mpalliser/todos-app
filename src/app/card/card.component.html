@@ -1,0 +1,37 @@
+<div class="modal-container" [ngStyle]="{'display': storeService.isDaySelected ? 'block' : 'none'}">
+  <div class="modal-background" (click)="storeService.isDaySelected = false"></div>
+  <div class="modal-content">
+
+    <form [formGroup]="formGroup">
+    
+      <div>
+        <input class="max-height max-width" type="date" formControlName="date">
+      </div>
+    
+      <div class="select">
+        <select formControlName="scope">
+          <option *ngFor="let scope of storeService.scopes" [value]="scope.id">
+            {{scope.text}}
+          </option>
+        </select>
+      </div>
+    
+      <div>
+        <input class="max-height" placeholder="Cantidad" formControlName="quantity" type="number">
+        <button class="form-button" [disabled]="!formGroup.valid" (click)="save()">
+          <i class="fa fa-plus-square"></i>
+        </button>
+      </div> 
+    
+    </form>
+
+    <div class="pad" *ngFor="let todo of storeService.selectedDay.todos">
+      <div class="pad">
+        <span class="pad">{{todo.quantity}}</span>
+        <span class="pad">{{todo.scope.data_type}}</span>
+        <button class="delete-button"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+    
+  </div>
+</div>

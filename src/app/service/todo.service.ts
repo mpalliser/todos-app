@@ -1,28 +1,38 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { StoreService } from './store.service';
 import { Observable } from 'rxjs';
 import { Todo } from '../model/todo';
 import { catchError } from 'rxjs/operators';
 import * as moment from 'moment';
+import { UtilsService } from './utils.service';
+
 @Injectable()
 export class TodoService {
 
-  private readonly URI = 'http://www.mocky.io/v2/5eaf03a23300004b009f42cf';
+  private readonly TODO_BASE_URL = '/life-monitoring/api/data';
+  private readonly INSERT = this.TODO_BASE_URL + '/insert';
 
   constructor(
     private http: HttpClient,
-    private storeService: StoreService
-  ) {}
-
-  getMonthTodos(): Observable<Todo[]> {
-    return this.http.get(this.URI, this.getHeaders()).pipe(
-      res => res,
-      catchError(this.handleError));
+    private storeService: StoreService,
+    private utilsService: UtilsService
+  ) {
+    this.fetchMonthTodos({ year: moment().format('YYYY'), month: moment().format('MM')});
   }
 
-  fetchMonthTodos(): void {
-    this.getMonthTodos().subscribe((res: Todo[]) => {
+  getMonthTodos(filter: any): Observable<Todo[]> {
+    return this.http.post(this.TODO_BASE_URL, filter, this.utilsService.getHeaders())
+    .pipe(res => res,catchError(this.utilsService.handleError));
+  }
+
+  insertTodo(data: Todo): Observable<Todo> {
+    return this.http.post(this.INSERT, data, this.utilsService.getHeaders())
+    .pipe(res => res, catchError(this.utilsService.handleError));
+  }
+
+  fetchMonthTodos(filter: any): void {
+    this.getMonthTodos(filter).subscribe((res: Todo[]) => {
       this.storeService.monthTodos = res,
       this.linkMonthTodosToTable();
     }, error => console.log(error)
@@ -44,17 +54,5 @@ export class TodoService {
         }
       });
     });
-  }
-
-  // TODO - extract to utilsService
-   private getHeaders(): any {
-    const headers = new HttpHeaders();
-    headers.append('Content-TypeService', 'application/json');
-
-    return {headers};
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error || error.message);
   }
 }

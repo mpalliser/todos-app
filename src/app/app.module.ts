@@ -5,20 +5,20 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InputComponent } from './input/input.component';
+import { CardComponent } from './card/card.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { DetailComponent } from './detail/detail.component';
 import { ScopeService } from './service/scope.service';
 import { StoreService } from './service/store.service';
 import { CalendarService } from './service/calendar.service';
 import { TodoService } from './service/todo.service';
+import { UtilsService } from './service/utils.service';
+import { Globals } from 'src/assets/globals';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InputComponent,
-    CalendarComponent,
-    DetailComponent
+    CardComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +31,9 @@ import { TodoService } from './service/todo.service';
     ScopeService,
     StoreService,
     CalendarService,
-    TodoService
+    TodoService,
+    UtilsService,
+    Globals
   ],
   bootstrap: [AppComponent]
 })

@@ -3,21 +3,64 @@ import { Week } from '../model/week';
 import { StoreService } from './store.service';
 import * as moment from 'moment';
 import { Day } from '../model/day';
+import { Month } from '../model/month';
+import { TodoService } from './todo.service';
 
 @Injectable()
 export class CalendarService {
 
-  constructor(private storeService: StoreService) {
+  calendarDate: moment.Moment = moment();
+
+  constructor(private storeService: StoreService, private todoService: TodoService) {
+    this.fillCalendar();
   }
 
-  fillMonthTable(): void {
-  
+  goToNextMonth(): void {
+    const month = this.calendarDate.add(1, 'months');
+    this.setCalendarDate(month);
+  }
+
+  goToLastMonth(): void {
+    const month = this.calendarDate.subtract(1, 'months');
+    this.setCalendarDate(month);
+  }
+
+  getMonthText(): string {
+    return this.calendarDate.locale('es').format('MMMM').toUpperCase();
+  }
+
+  getPrevMonthText(): string {
+    let prevMonth = moment(this.calendarDate)
+
+    return prevMonth.subtract(1, 'months').locale('es').format('MMMM').toUpperCase();
+  }
+
+  getNextMonthText(): string {
+    let nextMonth = moment(this.calendarDate)
+
+    return nextMonth.add(1, 'months').locale('es').format('MMMM').toUpperCase();
+  }
+
+  getMonth(): string {
+    return this.calendarDate.format('MM');
+  }
+
+  fillCalendar(): void {
+
+    this.clearValues();
+
+    const days = this.generateDaysFromMoment(this.calendarDate);
+
+    this.formatCalendarDays(days,);
+  }
+
+  private formatCalendarDays(days: any): void {
+
     let week: Week = new Week();
-    const days = this.generateDaysFromMoment();
 
     days.forEach((day, index) => {
 
-      if (index === 0 && day.weekday() < 6) {
+      if (index === 0 && day.weekday() <= 6) {
         this.fillLastMonthDays(day, week);
       }
 
@@ -34,14 +77,24 @@ export class CalendarService {
       }
     });
   }
+
+  private setCalendarDate(date: any): void {
+    this.calendarDate = date;
+    this.fillCalendar();
+  }
+
+  private clearValues(): void {
+    this.storeService.monthTodos = null;
+    this.storeService.month = new Month();
+  }
     
-  private generateDaysFromMoment(): any[] {
+  private generateDaysFromMoment(month: moment.Moment): any[] {
 
     let days = [];
-    let daysInMonth = moment().daysInMonth();
+    let daysInMonth = month.daysInMonth();
     
     while (daysInMonth) {
-      const currentDay = moment().date(daysInMonth);
+      const currentDay = moment().month(this.calendarDate.month()).date(daysInMonth);
       days.push(currentDay);
       daysInMonth--;
     }
@@ -54,9 +107,9 @@ export class CalendarService {
   private fillNextMonthDays(day: any, week: Week): void {
 
     let days = [];
-    let daysToAdd = day.weekday() - 1;
+    let daysToAdd = 7 - week.days.length < 7 ? 7 - week.days.length : 0;
     let counter = 0;
-    let dayToAdd = moment(day).add(1, 'months').startOf('month');
+    let dayToAdd = moment(this.calendarDate).add(1, 'months').startOf('month');
 
     while (daysToAdd > counter) {
       if (counter >= 1) {
@@ -72,9 +125,9 @@ export class CalendarService {
   private fillLastMonthDays(day: any, week: Week): void {
 
     let days = [];
-    let daysToAdd = day.weekday() -1;
+    let daysToAdd = day.weekday() === 0 ? 6 : day.weekday() -1;
     let counter = 0;
-    let dayToAdd = moment(day).subtract(1, 'months').endOf('month');
+    let dayToAdd = moment(this.calendarDate).subtract(1, 'months').endOf('month');
 
     while (daysToAdd > counter) {
       if (counter >= 1) {

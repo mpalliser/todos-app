@@ -1,5 +1,7 @@
+import { Scope } from './scope';
+
 export class Todo {
-  scope: any;
-  description: string;
   date: string;
+  quantity: number;
+  scope: Scope;
 }

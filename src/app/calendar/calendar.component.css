@@ -9,56 +9,64 @@ h1 {
 table {
     width: 100%;
     border-spacing: 0px;
-    border: 1px solid black;
     border-collapse: collapse;
-    
+    background: #101010;
+}
+.table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 th {
-    border: 1px solid black;
+    border: 1px solid #3c3a3a;
     padding: .5rem;
     color: #78dce8;
 }
 
 td {
-    border: 1px solid black;
+    border: 1px solid #3c3a3a;
     margin: 0;
     width: 14%;
     padding: 0;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 11px;
+    font-size: 12px;
+    z-index: 10;
 }
 
 td > div {
-    height: 6em;
+    height: 9em;
     transition: all 0.3s ease;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 96%;
+    width: 100%;
+    padding: 0 15em;
 }
 
 .selected-day {
     background: #a9dc76d3;
 }
 
-.cells-container {
-    padding: .5em 0 1.5em 1.5em;
-}
-
 .cell {
+    height: 90%;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#circle {
-    margin-top: 4px;
+.description {
+    padding-left: 3%;
 }
 
 .text-yellow {
     color: #ffd866;
+}
+
+.table-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

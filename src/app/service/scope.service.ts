@@ -8,7 +8,7 @@ import { StoreService } from './store.service';
 @Injectable()
 export class ScopeService {
 
-  private readonly URI = 'http://www.mocky.io/v2/5eaedf0b330000c9329f4234';
+  private readonly SCOPE_BASE_URL = '/life-monitoring/api/scope';
 
   constructor(
     private http: HttpClient,
@@ -17,7 +17,7 @@ export class ScopeService {
 
   getScopes(): Observable<Scope[]> {
 
-    return this.http.get(this.URI, this.getHeaders()).pipe(
+    return this.http.get(this.SCOPE_BASE_URL, this.getHeaders()).pipe(
       res => res,
       catchError(this.handleError));
   }

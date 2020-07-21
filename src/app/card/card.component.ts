@@ -1,24 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
 import { Scope } from '../model/scope';
 import { Todo } from '../model/todo';
 import { ScopeService } from '../service/scope.service';
 import { StoreService } from '../service/store.service';
+import { TodoService } from '../service/todo.service';
+import { CalendarService } from '../service/calendar.service';
+import { Day } from '../model/day';
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.css']
 })
-export class InputComponent implements OnInit {
+export class CardComponent implements OnInit {
 
   formGroup: FormGroup;
+
+  todos: Todo[];
 
   constructor(
     private scopeService: ScopeService,
     private formBuilder: FormBuilder,
-    public storeService: StoreService
+    public storeService: StoreService,
+    private todoService: TodoService,
+    private calendarService: CalendarService
   ) { }
 
   ngOnInit(): void {
@@ -29,36 +35,30 @@ export class InputComponent implements OnInit {
 
   initForm(): void {
     this.formGroup = this.formBuilder.group({
-      description: [null, Validators.required],
       scope: [null, Validators.required],
       date: [null, Validators.required],
       quantity: [null, Validators.required]
     });
 
-    this.formGroup.controls['date'].patchValue(moment().format('YYYY-MM-DD'));
+    this.storeService.daySelectedObservable.subscribe((data: Day) => {
+      this.formGroup.controls['date'].patchValue(data.year + "-" + data.month + "-" + data.number);
+    });
   }
 
   save(): void {
     if (this.formGroup.valid) {
-      
-      let todo = this.buildTodo();
-      this.storeService.monthTodos.push(todo);
-      
-      this.storeService.month.weeks.forEach(week => {
-        week.days.forEach(day => {
-          if (day && day.number.toString() === moment(todo.date).format('DD')) {
-            day.todos.push(todo);
-            console.log(todo);
-          }
-        });
-
-        this.resetFormData();
-      });
+      this.todoService.insertTodo(this.buildTodo()).subscribe(
+        () => {
+          this.storeService.isDaySelected = false;
+          this.resetFormData();
+          this.calendarService.fillCalendar()
+        }, err => console.log(err)
+      )
     }
   }
 
   private resetFormData(): void {
-    this.formGroup.patchValue({date: this.formGroup.get('date').value, scope: '', description: ''});
+    this.formGroup.patchValue({date: this.formGroup.get('date').value, scope: null, quantity: null});
   }
 
   private getSelectedScope(): Scope {

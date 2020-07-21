@@ -1,6 +1,7 @@
+import { Day } from './day';
 
 export class Week {
-    days: any[];
+    days: Day[];
 
     constructor() {
         this.days = [];
