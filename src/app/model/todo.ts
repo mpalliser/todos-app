@@ -4,4 +4,5 @@ export class Todo {
   date: string;
   quantity: number;
   scope: Scope;
+  userEmail: string;
 }

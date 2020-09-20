@@ -7,4 +7,5 @@ export class Day {
     weekDay: number;
     monthDay?: number
     todos: Todo[];
+    dayFormatted: string;
 }

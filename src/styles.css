@@ -1,53 +1,77 @@
 /* You can add global styles to this file, and also import other style files */
 
-body, html {
-  padding: 0;
-  margin: 0;
+html, body {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 100%;
+  width: 100%;
 }
 
 body {
   background: #0e0e0e;
-  /* background-image: linear-gradient(120deg, #2BAE66FF, #beb8b7); */
   font-family: "Roboto", sans-serif;
-  min-height: 100vh;
 }
 
 app-calendar {
-  display: flex;
-  justify-content: center;
-  height: 90vh;
-}
-
-#circle {
-  margin-left: .5rem;
-  margin-right: .5rem;
-  width: 10px;
-  height: 10px;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
-  border-radius: 25px;
-}
-
-.button {
-  padding: .5em;
-  cursor: pointer;
-  transition: all .35s;
-  border-radius: .3em;
-}
-
-.button:hover {
-  background-color: #a9dc76d3;
-  color: white;
+  height: 100%;
+  width: 100%;
 }
 
 .pad {
   padding: .5em;
 }
 
-.max-width {
-  width: 100%;
+.no-pad {
+  padding: 0;
 }
 
-.max-height {
-  height: 100%;
+.pad-top {
+  padding-top: 1em;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.button {
+  background: #2BAE66FF;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: .5em;
+  border: 0;
+  min-width: 120px;
+}
+
+.button>i {
+  padding: .3rem;
+}
+
+.button:disabled {
+  background-color: grey;
+}
+
+.delete-button {
+  background-color: inherit;
+}
+.delete-button > i {
+  font-size: 1rem;
+  color: red;
+  cursor: pointer;
+}
+
+hr {
+  border-top: 1px solid !important;
+  margin: 1rem !important;
+}
+
+.margin-bottom {
+  margin-bottom: 3em;
+}
+
+.margin-bottom-light {
+  margin-bottom: 1em !important;
 }

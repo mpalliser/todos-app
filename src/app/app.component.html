@@ -1,3 +1,6 @@
+<app-navbar></app-navbar>
+
 <app-calendar></app-calendar>
 
-<app-card></app-card>
+<!-- TODO: modify if for guard -->
+<app-card *ngIf="utilsService.isUserLogedIn() && storeService.isDaySelected"></app-card>

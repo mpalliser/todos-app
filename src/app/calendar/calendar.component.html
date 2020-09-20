@@ -1,38 +1,73 @@
 <div class="container">
 
-  <div class="table-header">
-    <div class="button" (click)="calendarService.goToLastMonth()">{{calendarService.getPrevMonthText()}}</div>
+  <div class="align-content-center pad-header">
     <h1>{{calendarService.getMonthText()}}</h1>
-    <div class="button" (click)="calendarService.goToNextMonth()">{{calendarService.getNextMonthText()}}</div>
+  </div>
+  
+  <div class="align-content-center">
+    <div class="table-buttons">
+      <button class="button" (click)="calendarService.changeMonth(-1)">{{calendarService.getPrevMonthText()}}</button>
+      <button class="button" (click)="calendarService.changeMonth(1)">{{calendarService.getNextMonthText()}}</button>
+    </div>
   </div>
 
-  <div class="table">
+  <div class="align-content-center">
     <table>
       <tr>
-        <th *ngFor="let weekDay of globals.weekDays">{{weekDay.text}}</th>
+        <th *ngFor="let weekDay of globals.weekDays">{{ innerWidth > 800 ? weekDay.text : weekDay.shortText }}</th>
       </tr>
   
       <tr *ngFor="let week of storeService.month?.weeks; let i = index">
         <td 
           *ngFor="let day of week.days" 
-          [ngClass]="{'selected-day': storeService.selectedDay.number === day?.number && storeService.selectedDay.month === day?.month}"
-          (click)="selectDay(day)">
-      
+          [ngClass]="{'selected-day': storeService.selectedDay && storeService.selectedDay.number === day.number && storeService.selectedDay.month === day.month}"
+          (click)="setSelectedDay(day)">  
           <span 
-            [style.color]="day?.month != calendarService.getMonth() ? '#ffffff2b' : '#ffffffa4'">
+            [style.color]="day.month != calendarService.getMonth() ? '#ffffff2b' : '#ffffffa4'">
             {{day?.number}}
           </span>
 
-          <div>
-            <div class="cell" *ngFor="let todo of day?.todos">
+          <div class="cell">
+            <ng-container *ngFor="let todo of day?.todos">
+
               <ng-container *ngIf="todo.scope.data_type == 'pasos'">
-                  <span class="text-yellow">{{ (todo.quantity | number) + ' ' }}</span><span class="description">{{todo.scope.data_type}}</span>
-              </ng-container>
-            </div>
-          </div>
+                <ng-container *ngIf="innerWidth > 800; else shortData">
+                  <div class="align-content-center pad">
+                    <span class="text-steps">{{ (todo.quantity | number) + ' ' }}</span><span class="description">p</span>
+                  </div>
+                  </ng-container>
+                  <ng-template #shortData>
+                  <div class="align-content-center pad">
+                    <span class="dot bg-steps"></span>
+                  </div>
+                  </ng-template>
+                </ng-container>
   
+              <ng-container *ngIf="todo.scope.data_type == 'kg'">
+                <ng-container *ngIf="innerWidth > 800; else shortData">
+                  <div class="align-content-center pad">
+                    <span class="text-kg">{{ (todo.quantity | number) + ' ' }}</span><span class="description">kg</span>
+                  </div>
+                </ng-container>
+                <ng-template #shortData>
+                  <div class="align-content-center pad">
+                    <span class="dot bg-kg"></span>
+                  </div>
+                </ng-template>
+              </ng-container>
+
+            </ng-container>
+          </div>
         </td>
       </tr>
     </table>
   </div>
+  
+  <div class=" pad-top">
+    <div>
+      <div>Media de pasos el mes actual: {{storeService.stepsByMonth}}</div>
+      <div>Peso actual: {{storeService.actualWeight}}</div>
+    </div>
+  </div>
 </div>
+

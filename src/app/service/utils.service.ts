@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { ApiError } from '../model/api-error';
+import { StoreService } from './store.service';
 
 @Injectable()
 export class UtilsService {
-    
-    public getHeaders(): any {
-        const headers = new HttpHeaders();
-        headers.append('Content-TypeService', 'application/json');
-    
-        return {headers};
-      }
-    
-      public handleError(error: any): Promise<any> {
-        return Promise.reject(error || error.message);
-      }
+
+	// private readonly JWT_EXPIRED = 'JWT expired at';
+
+	constructor(private storeService: StoreService) {}
+
+	handleError(error: ApiError): Promise<any> {
+
+		// if (error.message.includes(this.JWT_EXPIRED)) {
+		// 	localStorage.clear();
+		// 	this.storeService.user = null;
+		// }
+
+		return Promise.reject(error || error.message);
+	}
+
+	isUserLogedIn(): boolean {
+
+		if (localStorage.getItem('accessToken') && localStorage.getItem('email')) {
+			return true;
+		}
+	}
 }

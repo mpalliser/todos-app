@@ -1,0 +1,9 @@
+<nav>
+    <span>{{year}}</span>
+
+    <div class="user-icon fa fa-user" *ngIf="!user; else userImg" (click)="singIn()"></div>
+
+    <ng-template #userImg>
+        <img *ngIf="user" (click)="logOut()" class="user-img" [src]="user.photoUrl">
+    </ng-template>
+</nav>
